@@ -1,0 +1,7 @@
+name: Minigame_CTF
+version: '${project.version}'
+main: vendek.minigame_ctf.Minigame_CTF
+api-version: '1.20'
+commands:
+  distributePlayers:
+    usage: /<command>
