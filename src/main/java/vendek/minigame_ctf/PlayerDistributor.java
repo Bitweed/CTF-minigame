@@ -10,19 +10,24 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
+import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class PlayerDistributor implements CommandExecutor {
-
-    String worldName = "world";
     String teamOneName = "RED";
     String teamTwoName = "BLUE";
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        List<Player> players = JustGetAllPlayers();
+        DistributePlayers();
+        sender.sendMessage("Игроки были успешно поделены на команды.");
+        return true;
+    }
+
+    private void DistributePlayers() {
+        List<Player> players = Minigame_CTF.JustGetAllPlayers("world");
         int playersCount = players.size();
 
         // Команды игроков (red, blue)
@@ -33,23 +38,12 @@ public class PlayerDistributor implements CommandExecutor {
 
         // Первая половина идет в красную команду, а вторая в синюю
         for (int i = 0; i < playersCount; i++){
-            if (i + 1 <= (playersCount / 2)) {
+            if (i + 1 <= (playersCount / 2))
                 red.addEntry(players.get(i).getName());
-            }
             else
-            {
                 blue.addEntry(players.get(i).getName());
-            }
         }
-        return true;
     }
 
-    private List<Player> JustGetAllPlayers() {
-        // Берем всех игроков из мира 'worldName'
-        World world = Bukkit.getServer().getWorld(worldName);
-        List<Player> playersList = world.getPlayers();
-        // Случайно перемешиваем список игроков
-        Collections.shuffle(playersList);
-        return playersList;
-    }
+
 }
