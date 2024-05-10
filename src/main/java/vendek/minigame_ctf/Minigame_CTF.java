@@ -2,6 +2,7 @@ package vendek.minigame_ctf;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -29,7 +30,7 @@ public final class Minigame_CTF extends JavaPlugin implements Listener {
         // Создание босс баров
         BossBarManager.CreateBossBar();
 
-        Bukkit.getScheduler().runTaskTimer(this, this::updateCapturePoints, 0L, 20L);
+        Bukkit.getScheduler().runTaskTimer(this, this::updateCapturePoints, 0L, 25L);
     }
 
     @Override
@@ -37,7 +38,7 @@ public final class Minigame_CTF extends JavaPlugin implements Listener {
         BossBarManager.ClearBossBars();
     }
 
-    private final Integer MAX_POINTS = 10;
+    private final Integer MAX_POINTS = 8;
     private void updateCapturePoints() {
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
         Objective redObjective = scoreboard.getObjective("RED_CAPTURE_POINTS");
@@ -65,6 +66,7 @@ public final class Minigame_CTF extends JavaPlugin implements Listener {
                     blueScore.setScore(Math.max(0, blueScore.getScore() - 2));
                 } else if (redScore.getScore() < MAX_POINTS) {
                     redScore.setScore(redScore.getScore() + 1);
+                    player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
                 }
             }
             else if (player.getScoreboard().getEntryTeam(player.getName()).getName().equals("BLUE")) {
@@ -72,6 +74,7 @@ public final class Minigame_CTF extends JavaPlugin implements Listener {
                     redScore.setScore(Math.max(0, redScore.getScore() - 2));
                 } else if (blueScore.getScore() < MAX_POINTS) {
                     blueScore.setScore(blueScore.getScore() + 1);
+                    player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
                 }
             }
         }
