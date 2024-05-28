@@ -18,7 +18,7 @@ public class BossBarManager implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        List<Player> players = MiniGameCTF.JustGetAllPlayers("world");
+        List<Player> players = Minigame_CTF.JustGetAllPlayers("world");
         ShowBossBars(players);
         sender.sendMessage("Боссбары были включены");
         return true;

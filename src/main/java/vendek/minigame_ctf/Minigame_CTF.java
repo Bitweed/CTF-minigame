@@ -13,9 +13,10 @@ import vendek.minigame_ctf.commands.PlayerDistributor;
 import java.util.Collections;
 import java.util.List;
 
-public final class MiniGameCTF extends JavaPlugin implements Listener {
+public final class Minigame_CTF extends JavaPlugin implements Listener {
 
     private final ScoreUpdater scoreUpdater = new ScoreUpdater("world");
+
     @Override
     public void onEnable() {
         this.getCommand("distributePlayers").setExecutor(new PlayerDistributor());

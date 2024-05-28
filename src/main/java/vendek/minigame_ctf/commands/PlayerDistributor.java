@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
-import vendek.minigame_ctf.MiniGameCTF;
+import vendek.minigame_ctf.Minigame_CTF;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class PlayerDistributor implements CommandExecutor {
     }
 
     private void DistributePlayers() {
-        List<Player> players = MiniGameCTF.JustGetAllPlayers("world");
+        List<Player> players = Minigame_CTF.JustGetAllPlayers("world");
         int playersCount = players.size();
 
         // Команды игроков (red, blue)
