@@ -18,13 +18,13 @@ public class PlayerDistributor implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        DistributePlayers();
+        DistributePlayers("world");
         sender.sendMessage("Игроки были успешно поделены на команды.");
         return true;
     }
 
-    private void DistributePlayers() {
-        List<Player> players = Minigame_CTF.JustGetAllPlayers("world");
+    public void DistributePlayers(String world) {
+        List<Player> players = Minigame_CTF.JustGetAllPlayers(world);
         int playersCount = players.size();
 
         // Команды игроков (red, blue)

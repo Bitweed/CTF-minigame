@@ -7,8 +7,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import vendek.minigame_ctf.commands.PlayerDistributor;
+import vendek.minigame_ctf.commands.StartCTF;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,10 +19,18 @@ public final class Minigame_CTF extends JavaPlugin implements Listener {
 
     private final ScoreUpdater scoreUpdater = new ScoreUpdater("world");
 
+    private static Minigame_CTF instance;
+    public static Plugin getInstance() {
+        return instance;
+    }
+
     @Override
     public void onEnable() {
+        instance = this;
+
         this.getCommand("distributePlayers").setExecutor(new PlayerDistributor());
         this.getCommand("showBossBars").setExecutor(new BossBarManager());
+        this.getCommand("start-ctf").setExecutor(new StartCTF());
 
         getServer().getPluginManager().registerEvents(this, this);
 

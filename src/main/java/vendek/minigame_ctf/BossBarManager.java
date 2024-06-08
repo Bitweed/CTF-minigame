@@ -26,10 +26,10 @@ public class BossBarManager implements CommandExecutor {
 
     public static void CreateBossBar() {
         redBar = Bukkit.createBossBar("Красные", BarColor.RED, BarStyle.SOLID);
-        redBar.setProgress(1.0);
+        redBar.setProgress(0.01);
 
         blueBar = Bukkit.createBossBar("Синие", BarColor.BLUE, BarStyle.SOLID);
-        blueBar.setProgress(1.0);
+        blueBar.setProgress(0.01);
     }
     public static void ShowBossBars (List<Player> players) {
         for (Player player : players) {

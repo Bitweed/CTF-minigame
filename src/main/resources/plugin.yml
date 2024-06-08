@@ -7,3 +7,7 @@ commands:
     usage: /<command>
   showBossBars:
     usage: /<command>
+  start-ctf:
+    usage: /<command> [world]
+    description:
+      Start game on the selected world
