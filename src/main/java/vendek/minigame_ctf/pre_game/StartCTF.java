@@ -1,4 +1,4 @@
-package vendek.minigame_ctf.commands;
+package vendek.minigame_ctf.pre_game;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,19 +11,25 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import vendek.minigame_ctf.GameManager;
 import vendek.minigame_ctf.Minigame_CTF;
+import vendek.minigame_ctf.pre_game.PlayerDistributor;
 
 import java.util.List;
 
 import static vendek.minigame_ctf.Minigame_CTF.JustGetAllPlayers;
+import static vendek.minigame_ctf.Minigame_CTF.getGameManagers;
 
 public class StartCTF implements CommandExecutor {
 
-    private void startCountdown(World world, List<Player> players, int countdownTime) {
-        new BukkitRunnable() {
-            int countdown = countdownTime;
+    private static final int COUNTDOWN_TIME = 3;
+    private static final long RUN_TASK_INTERVAL = 20L;
 
+    public static void startCountdown(World world, List<Player> players) {
+        new BukkitRunnable() {
+            int countdown = COUNTDOWN_TIME;
             public void run() {
+                // Окончание отсчёта
                 if (countdown <= 0) {
                     // Точки телепортации
                     Location blueSpawn = findArmorStandLocation(world, "blue_spawn");
@@ -48,10 +54,10 @@ public class StartCTF implements CommandExecutor {
                     countdown--;
                 }
             }
-        }.runTaskTimer(Minigame_CTF.getInstance(), 0, 20L);
+        }.runTaskTimer(Minigame_CTF.getInstance(), 0, RUN_TASK_INTERVAL);
     }
 
-    private Location findArmorStandLocation(World world, String tag) {
+    private static Location findArmorStandLocation(World world, String tag) {
         for (Entity entity : world.getEntities()) {
             if (entity instanceof ArmorStand && entity.getScoreboardTags().contains(tag)) {
                 return entity.getLocation();
@@ -62,26 +68,13 @@ public class StartCTF implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        if (args.length == 0) {
-            commandSender.sendMessage("Вы не указали название мира!");
+        int gameObjectIndex = 0;
+        GameManager gm = getGameManagers().get(gameObjectIndex);
+        if (gm.getPlayerCount() < 1) {
+            commandSender.sendMessage("Недостаточно игроков для старта" + " (" + gm.getPlayerCount() + ")");
             return false;
         }
-        String worldName = args[0];
-        World world = Bukkit.getWorld(worldName);
-        if (world == null) {
-            commandSender.sendMessage("Мира '" + worldName + "' не существует!");
-            return false;
-        }
-        // Список всех игроков в мире
-        List<Player> players = JustGetAllPlayers(worldName);
-
-        // Распределение по командам
-        PlayerDistributor pd = new PlayerDistributor();
-        pd.DistributePlayers(worldName);
-
-        // Обратный отсчёт
-        startCountdown(world, players, 3);
-
+        gm.startGame();
         return true;
     }
 }

@@ -1,9 +1,7 @@
-package vendek.minigame_ctf.commands;
+package vendek.minigame_ctf.pre_game;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
@@ -12,19 +10,14 @@ import vendek.minigame_ctf.Minigame_CTF;
 
 import java.util.List;
 
-public class PlayerDistributor implements CommandExecutor {
-    String teamOneName = "RED";
-    String teamTwoName = "BLUE";
+public class PlayerDistributor {
+    static String teamOneName = "RED";
+    static String teamTwoName = "BLUE";
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        DistributePlayers("world");
-        sender.sendMessage("Игроки были успешно поделены на команды.");
-        return true;
-    }
 
-    public void DistributePlayers(String world) {
-        List<Player> players = Minigame_CTF.JustGetAllPlayers(world);
+    public static void DistributePlayers(World world) {
+        String worldName = world.getName();
+        List<Player> players = Minigame_CTF.JustGetAllPlayers(worldName);
         int playersCount = players.size();
 
         // Команды игроков (red, blue)
